@@ -1,0 +1,2 @@
+# kquickimageeditor
+KQuickImageEditor is a set of QtQuick components providing basic image editing capabilities
