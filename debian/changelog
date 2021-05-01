@@ -1,4 +1,4 @@
-kquickimageeditor (0.0.1) nitrux; urgency=medium
+kquickimageeditor (0.0.1+nitrux+0.1.3) nitrux; urgency=medium
 
   * Create package.
 
