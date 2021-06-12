@@ -2,7 +2,7 @@ Source: kquickimageeditor
 Section: kde
 Priority: optional
 Maintainer: Uri Herrera <uri_herrera@nxos.org>
-Build-Depends: debhelper (>=9), cmake, extra-cmake-modules, build-essential, libkf5config-dev, qtdeclarative5-dev, libkf5guiaddons-dev, gettext
+Build-Depends: libkf5config-dev, qtdeclarative5-dev, libkf5guiaddons-dev
 Standards-Version: 3.9.6
 
 Package: kquickimageeditor
