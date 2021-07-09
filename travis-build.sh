@@ -7,7 +7,9 @@ apt -qq -yy install equivs curl git wget gnupg2
 
 ### Replace Travis containers' sources file
 
-apt-cache policy
+cat /etc/apt/sources.list
+
+for X in /etc/apt/sources.list.d/*; do echo; echo; echo "** $X:"; echo; cat $X; done
 
 wget -qO /etc/apt/sources.list.d/sources.list https://raw.githubusercontent.com/Nitrux/iso-tool/development/configs/files/sources.list.debian.unstable
 
