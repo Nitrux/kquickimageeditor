@@ -13,8 +13,9 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
 	04EE7237B7D453EC \
 	648ACFD622F3D138 > /dev/null
 
-apt-cache policy
 apt -qq update
+
+apt-cache policy
 
 ### Install Dependencies
 
