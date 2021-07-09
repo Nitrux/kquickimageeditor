@@ -1,5 +1,8 @@
 dist: focal
 
+arch:
+  - arm64
+
 before_install:
   - gem install package_cloud
 
@@ -10,13 +13,6 @@ script:
 branches:
   only:
     - main
-
-deploy:
-  - provider: script
-    script: wget -qO - https://raw.githubusercontent.com/Nitrux/nitrux-repository-util/master/upload-pkgs | sh -s *.deb
-    skip_cleanup: true
-    on:
-      branch: main
 
 notifications:
   email: false
