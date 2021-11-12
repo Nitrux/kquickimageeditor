@@ -32,6 +32,7 @@ DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver keyserver.ubuntu.com --re
 DEBIAN_FRONTEND=noninteractive apt -qq update
 
 ### Install Package Build Dependencies #2
+### Kquickimageditor needs ECM > 5.70
 
 DEBIAN_FRONTEND=noninteractive apt -qq -yy install --no-install-recommends \
 	libkf5config-dev \
@@ -39,6 +40,9 @@ DEBIAN_FRONTEND=noninteractive apt -qq -yy install --no-install-recommends \
 	qtbase5-dev \
 	qtdeclarative5-dev \
 	qtquickcontrols2-5-dev
+
+DEBIAN_FRONTEND=noninteractive apt -qq -yy install --only-upgrade \
+	extra-cmake-modules
 
 ### Clone Repository
 
