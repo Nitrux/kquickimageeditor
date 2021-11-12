@@ -84,8 +84,8 @@ checkinstall -D -y \
 	--pkgsource=kquickimageeditor \
 	--pakdir=../.. \
 	--maintainer=uri_herrera@nxos.org \
-	--provides=mauikit \
-	--requires=libc6,libkf5configcore5,libkf5coreaddons5,libkf5i18n5,libkf5notifications5,libqt5core5a,libqt5gui5,libqt5qml5,libstdc++6,qml-module-org-kde-kirigami2,qml-module-qtquick-controls2,qml-module-qtquick-shapes \
+	--provides=kquickimageeditor \
+	--requires=libc6,libqt5core5a,libqt5gui5,libqt5qml5,libqt5quick5,libstdc++6 \
 	--nodoc \
 	--strip=no \
 	--stripso=yes \
