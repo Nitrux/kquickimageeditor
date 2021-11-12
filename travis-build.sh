@@ -2,35 +2,92 @@
 
 set -x
 
-apt -qq update
-apt -qq -yy install equivs curl git wget gnupg2
+### Install Build Tools #1
 
-### FIXME - the container mauikit/ubuntu-18.04-amd64 does have the neon repo but for some idiotic reason it isn't working here
+DEBIAN_FRONTEND=noninteractive apt -qq update
+DEBIAN_FRONTEND=noninteractive apt -qq -yy install --no-install-recommends \
+	appstream \
+	automake \
+	autotools-dev \
+	build-essential \
+	checkinstall \
+	cmake \
+	curl \
+	devscripts \
+	equivs \
+	extra-cmake-modules \
+	gettext \
+	git \
+	gnupg2 \
+	lintian \
+	wget
+
+### Add Neon Sources
 
 wget -qO /etc/apt/sources.list.d/neon-user-repo.list https://raw.githubusercontent.com/Nitrux/iso-tool/development/configs/files/sources.list.neon.user
 
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
+DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
 	55751E5D > /dev/null
 
-apt -qq update
+DEBIAN_FRONTEND=noninteractive apt -qq update
 
-### Install Dependencies
+### Install Package Build Dependencies #2
 
-DEBIAN_FRONTEND=noninteractive apt -qq -yy install devscripts debhelper gettext lintian build-essential automake autotools-dev cmake extra-cmake-modules
+DEBIAN_FRONTEND=noninteractive apt -qq -yy install --no-install-recommends \
+	libkf5config-dev \
+	libkf5guiaddons-dev \
+	qtbase5-dev \
+	qtdeclarative5-dev \
+	qtquickcontrols2-5-dev
 
-mk-build-deps -i -t "apt-get --yes" -r
+### Clone Repository
 
-### Clone repo
+git clone --single-branch --branch v0.2.0 https://invent.kde.org/libraries/kquickimageeditor.git
 
-git clone https://invent.kde.org/libraries/kquickimageeditor.git
+rm -rf kquickimageeditor/{examples,LICENSES,koko-*,README.md}
 
-mv kquickimageeditor/* .
+### Compile Source
 
-rm -rf kquickimageeditor examples LICENSES koko-* README.md
+mkdir -p kquickimageeditor/build && cd kquickimageeditor/build
 
-### Build Deb
+cmake \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE=None \
+	-DCMAKE_INSTALL_SYSCONFDIR=/etc \
+	-DCMAKE_INSTALL_LOCALSTATEDIR=/var \
+	-DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
+	-DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON "-GUnix Makefiles" \
+	-DCMAKE_VERBOSE_MAKEFILE=ON \
+	-DCMAKE_INSTALL_LIBDIR=lib/aarch64-linux-gnu ..
 
-mkdir source
-mv ./* source/ # Hack for debuild
-cd source
-debuild -b -uc -us
+make
+
+### Run checkinstall and Build Debian Package
+### DO NOT USE debuild, screw it
+
+>> description-pak printf "%s\n" \
+	'Set of QtQuick components providing basic image editing capabilities.' \
+	'' \
+	'KQuickImageEditor for Nitrux.' \
+	'' \
+	''
+
+checkinstall -D -y \
+	--install=no \
+	--fstrans=yes \
+	--pkgname=kquickimageeditor \
+	--pkgversion=0.2.0 \
+	--pkgarch=amd64 \
+	--pkgrelease="1" \
+	--pkglicense=LGPL-3 \
+	--pkggroup=lib \
+	--pkgsource=kquickimageeditor \
+	--pakdir=../.. \
+	--maintainer=uri_herrera@nxos.org \
+	--provides=mauikit \
+	--requires=libc6,libkf5configcore5,libkf5coreaddons5,libkf5i18n5,libkf5notifications5,libqt5core5a,libqt5gui5,libqt5qml5,libstdc++6,qml-module-org-kde-kirigami2,qml-module-qtquick-controls2,qml-module-qtquick-shapes \
+	--nodoc \
+	--strip=no \
+	--stripso=yes \
+	--reset-uids=yes \
+	--deldesc=yes
