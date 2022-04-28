@@ -84,7 +84,7 @@ checkinstall -D -y \
 	--pkgarch=amd64 \
 	--pkgrelease="1" \
 	--pkglicense=LGPL-3 \
-	--pkggroup=lib \
+	--pkggroup=libs \
 	--pkgsource=kquickimageeditor \
 	--pakdir=../.. \
 	--maintainer=uri_herrera@nxos.org \
