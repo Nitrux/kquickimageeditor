@@ -1,4 +1,4 @@
-# KQuickImageEditor [![Build Status](https://travis-ci.org/Nitrux/kquickimageeditor.svg?branch=main)](https://travis-ci.org/Nitrux/kquickimageeditor)
+# KQuickImageEditor
 
 KQuickImageEditor is a set of QtQuick components providing basic image editing capabilities.
 
