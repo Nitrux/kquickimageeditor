@@ -10,7 +10,9 @@ DEBIAN_FRONTEND=noninteractive apt -qq update
 
 ### Download Source
 
-git clone --depth 1 --branch $BONSAI_BRANCH https://invent.kde.org/maui/bonsai.git
+git clone --depth 1 --branch $KQUICKIMAGEEDITOR_BRANCH https://invent.kde.org/libraries/kquickimageeditor.git
+
+rm -rf kquickimageeditor/{examples,LICENSES,koko-*,README.md}
 
 ### Compile Source
 
